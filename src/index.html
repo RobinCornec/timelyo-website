@@ -492,9 +492,9 @@
             <p class="text-base text-body-color mb-7">Limité à 5 utilisateurs.</p>
             <div
               class="border-b border-body-color dark:border-white border-opacity-10 dark:border-opacity-10 pb-8 mb-8">
-              <a href="javascript:void(0)"
+              <a href="#contact"
                 class="font-semibold text-base text-white bg-primary w-full flex items-center justify-center rounded-md p-3 hover:shadow-signUp hover:bg-opacity-80 transition duration-300 ease-in-out">
-                Start Free Trial
+                Nous contacter
               </a>
             </div>
             <div>
@@ -587,7 +587,7 @@
             <p class="text-base text-body-color mb-7">Augmentez jusqu'à 25 utilisateurs.</p>
             <div
               class="border-b border-body-color dark:border-white border-opacity-10 dark:border-opacity-10 pb-8 mb-8">
-              <a href="javascript:void(0)"
+              <a href="#contact"
                 class="font-semibold text-base text-white bg-primary w-full flex items-center justify-center rounded-md p-3 hover:shadow-signUp hover:bg-opacity-80 transition duration-300 ease-in-out">
                 Nous contacter
               </a>
@@ -682,7 +682,7 @@
             <p class="text-base text-body-color mb-7">Utilisateurs illimités. Accès à l'API.</p>
             <div
               class="border-b border-body-color dark:border-white border-opacity-10 dark:border-opacity-10 pb-8 mb-8">
-              <a href="javascript:void(0)"
+              <a href="#contact"
                 class="font-semibold text-base text-white bg-primary w-full flex items-center justify-center rounded-md p-3 hover:shadow-signUp hover:bg-opacity-80 transition duration-300 ease-in-out">
                 Nous contacter
               </a>
@@ -953,7 +953,7 @@
       let valueMessage = inputMessage.value;
 
       try {
-        const response = await fetch("./.netlify/functions/triggerEmail", {
+        const response = await fetch("${process.env.URL}/.netlify/functions/triggerEmail", {
           method: "POST",
           body: JSON.stringify({
             formEmail: valueEmail,
