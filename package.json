@@ -30,7 +30,10 @@
     "webpack-dev-server": "^4.7.3"
   },
   "dependencies": {
+    "@netlify/emails": "^1.1.0",
+    "@netlify/functions": "^2.7.0",
     "glightbox": "^3.2.0",
+    "node-fetch": "^3.3.2",
     "wowjs": "^1.1.3"
   }
 }
