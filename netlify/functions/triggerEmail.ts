@@ -1,6 +1,4 @@
 import type { Handler } from "@netlify/functions";
-import { sendEmail } from "@netlify/emails";
-
 const handler: Handler = async function(event) {
   if (event.body === null) {
     return {
@@ -17,25 +15,28 @@ const handler: Handler = async function(event) {
     formMessage: string;
   };
 
-  console.log(requestBody)
-
-  await sendEmail({
-    from: "contact@timelyo.com",
-    to: "contact@timelyo.com",
-    subject: "Timelyo - Nouveau contact",
-    template: "contact",
-    parameters: {
-      name: requestBody.formName, 
-      business: requestBody.formBusiness, 
-      phone: requestBody.formPhone, 
-      email: requestBody.formEmail, 
-      message: requestBody.formMessage
+  const response = await fetch(`${process.env.URL}/.netlify/functions/emails/contact`, {
+    headers: {
+      "netlify-emails-secret": process.env.NETLIFY_EMAILS_SECRET as string,
     },
+    method: "POST",
+    body: JSON.stringify({
+      from: "contact@timelyo.com",
+      to: "contact@timelyo.com",
+      subject: "Timelyo - Nouveau contact",
+      parameters: {
+        name: requestBody.formName,
+        business: requestBody.formBusiness,
+        phone: requestBody.formPhone,
+        email: requestBody.formEmail,
+        message: requestBody.formMessage
+      },
+    }),
   });
 
   return {
-    statusCode: 200,
-    body: JSON.stringify("Contact email sent!"),
+    statusCode: response.status,
+    body: JSON.stringify(response.statusText),
   };
 };
 

@@ -952,22 +952,20 @@
       let valuePhone = inputPhone.value;
       let valueMessage = inputMessage.value;
 
-      try {
-        const response = await fetch("./.netlify/functions/triggerEmail", {
-          method: "POST",
-          body: JSON.stringify({
-            formEmail: valueEmail,
-            formPhone: valuePhone,
-            formName: valueName,
-            formBusiness: valueBusiness,
-            formMessage: valueMessage,
-          })
-        });
+      const response = await fetch("./.netlify/functions/triggerEmail", {
+        method: "POST",
+        body: JSON.stringify({
+          formEmail: valueEmail,
+          formPhone: valuePhone,
+          formName: valueName,
+          formBusiness: valueBusiness,
+          formMessage: valueMessage,
+        })
+      });
 
-        alert('Message envoyé');
-      } catch (error) {
+      response.status === 200 ?
+        alert('Message envoyé') :
         alert('Un problème est durvenu avec l\`envoi de mail, vous pouvez envoyer une email directement à contact@timelyo.com');
-      }
 
     }
 
