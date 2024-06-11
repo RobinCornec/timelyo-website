@@ -1,4 +1,7 @@
 import type { Handler } from "@netlify/functions";
+import sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 const handler: Handler = async function(event) {
   if (event.body === null) {
     return {
@@ -15,29 +18,30 @@ const handler: Handler = async function(event) {
     formMessage: string;
   };
 
-  const response = await fetch(`${process.env.URL}/.netlify/functions/emails/contact`, {
-    headers: {
-      "netlify-emails-secret": process.env.NETLIFY_EMAILS_SECRET as string,
-    },
-    method: "POST",
-    body: JSON.stringify({
-      from: "contact@timelyo.com",
-      to: "contact@timelyo.com",
-      subject: "Timelyo - Nouveau contact",
-      parameters: {
-        name: requestBody.formName,
-        business: requestBody.formBusiness,
-        phone: requestBody.formPhone,
-        email: requestBody.formEmail,
-        message: requestBody.formMessage
-      },
-    }),
-  });
-
-  return {
-    statusCode: response.status,
-    body: JSON.stringify(response.statusText),
-  };
+  try {
+    await sgMail.send({
+      from: 'contact@timelyo.com',
+      to: 'contact@timelyo.com',
+      subject: 'Timelyo - Nouveau contact',
+      html: `
+        <h1>Nouveau contact</h1>
+        <p>Nom: ${requestBody.formName}</p>
+        <p>Entreprise: ${requestBody.formBusiness}</p>
+        <p>Tel.: ${requestBody.formPhone}</p>
+        <p>Email: ${requestBody.formEmail}</p>
+        <p>${requestBody.formMessage}</p>
+      `,
+    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: 'Email sent successfully!' }),
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message }),
+    };
+  }
 };
 
 export { handler };

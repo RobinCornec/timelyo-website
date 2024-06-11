@@ -1,4 +1,0 @@
-[[plugins]]
-  package = "@netlify/plugin-emails"
-[functions]
-  included_files = ["emails/**"]
